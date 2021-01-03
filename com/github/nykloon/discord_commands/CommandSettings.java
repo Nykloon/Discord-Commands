@@ -7,15 +7,12 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class CommandSettings {
 
-    private static final String VALID_LABEL = "[^\\s]+";
+    private static final String VALID_NAME = "[^\\s]+";
     public static final Logger LOGGER = Logger.getLogger("CommandHandler");
     private static final String INVALID_PREFIX = "[CommandHandler] Invalid Prefix ] Prefix cannot be empty!";
 
@@ -35,7 +32,7 @@ public class CommandSettings {
     private final CommandListener commandListener;
 
     private Map<Long, String> customPrefixMap; // Custom Prefix - [Long] GuildID and [String] Prefix
-    private Map<String, ICommand> commandMap; // Command and name, description
+    private Map<String, Map.Entry<ICommand, String>> commandMap; // Command and name, description
 
     private Object jda;
 
@@ -182,8 +179,8 @@ public class CommandSettings {
      * @return The current object.
      */
     public CommandSettings add(@Nonnull ICommand command, @Nonnull String name) {
-        if (name.matches(VALID_LABEL))
-            this.commandMap.put(name, command);
+        if (name.matches(VALID_NAME))
+            this.commandMap.put(name, new AbstractMap.SimpleEntry<>(command, null));
         else
             throw new IllegalArgumentException("Command Name \"" + name + "\" is not valid.");
         return this;
@@ -197,8 +194,8 @@ public class CommandSettings {
      * @return The current object.
      */
     public CommandSettings add(@Nonnull ICommand command, @Nonnull String name, String description) {
-        if (name.matches(VALID_LABEL))
-            this.commandMap.put(name, command);
+        if (name.matches(VALID_NAME))
+            this.commandMap.put(name, new AbstractMap.SimpleEntry<>(command, description));
         else
             throw new IllegalArgumentException("Command Name \"" + name + "\" is not valid.");
         return this;
@@ -375,7 +372,7 @@ public class CommandSettings {
     /**
      * @return Map of commands.
      */
-    public Map<String, ICommand> getCommands() {
+    public Map<String, Map.Entry<ICommand, String>> getCommands() {
         return this.commandMap;
     }
 
