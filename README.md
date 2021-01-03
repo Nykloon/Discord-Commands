@@ -17,7 +17,7 @@ commandSettings.activate(); // This is very important.
 Make sure to add commands before activating CommandSettings.
 1. Parameter: **Command Class** | This is the class of your command implementing ICommand.
 2. Parameter: **Name** | Name of the command, can't be null.
-3. Parameter: **Description** | @Nullable Description of the command.
+3. Parameter: **Description** | Description of the command (Not required).
 ```java
 commandSettings.add(new HelloCommand(), "hello", "say hello!"); 
 ```
