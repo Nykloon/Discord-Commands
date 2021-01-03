@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class CommandListener extends ListenerAdapter {
 
@@ -60,6 +61,16 @@ public class CommandListener extends ListenerAdapter {
             // Check if user is on cooldown.
             if (cooldownMap.containsKey(userID) && (timestamp - cooldownMap.get(userID)) < commandSettings.getCooldown()) return;
             cooldownMap.put(userID, timestamp);
+
+            // Check if command exists.
+            String commandString = (commandSettings.isIgnoreLabelCase()) ? content.replaceFirst(Pattern.quote(prefix), "").split("\\s+")[0].toLowerCase() : content.replaceFirst(Pattern.quote(prefix), "").split("\\s+")[0];
+            if (!commandSettings.getCommands().containsKey(commandString)) {
+                Message unknownCommandMessage = commandSettings.getUnknownCommand();
+                if (unknownCommandMessage  != null && event.getGuild().getSelfMember().hasPermission(channel, Permission.MESSAGE_WRITE, Permission.MESSAGE_EMBED_LINKS)) {
+                    channel.sendMessage(unknownCommandMessage).queue();
+                }
+                return;
+            }
 
             // Execute command.
             Command command = new Command(content, prefix, commandSettings);
