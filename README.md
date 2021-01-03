@@ -9,10 +9,12 @@ your commands - you can set a few messages, custom prefixes, and more. Make sure
 3. Parameter: **IgnoreCase** | If this is on TRUE, the commands will be case insensitive.
 ```java
 CommandSettings commandSettings = new CommandSettings("!!!", jda, true);
+// Setting additions here
 commandSettings.activate(); // This is very important.
 ```
 
 ### Adding a Command
+Make sure to add commands before activating CommandSettings.
 1. Parameter: **Command Class** | This is the class of your command implementing ICommand.
 2. Parameter: **Name** | Name of the command, can't be null.
 3. Parameter: **Description** | @Nullable Description of the command.
