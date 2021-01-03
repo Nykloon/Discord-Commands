@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 /**
- * @author Nyk76
+ * @author Nykloon
  * @version 1.0.0
  * @code https://www.github.com/Nykloon/Discord-Commands
  * Interface, required for any command.
